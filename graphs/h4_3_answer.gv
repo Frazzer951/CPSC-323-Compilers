@@ -1,0 +1,21 @@
+digraph G {
+    rankdir=LR;
+
+    X [label="±"];
+    A [label=""];
+    B [label=""];
+    C [label="+"];
+    D [label=""];
+    S [label="+"];
+
+    X -> A[label="a"];
+    A -> B[label="b"];
+    B -> B[label="b"];
+    X -> C[label="b"];
+    C -> C[label="b"];
+    C -> D[label="a"];
+
+    A -> S[label="a"];
+    B -> S[label="a"];
+    D -> S[label="a,b"];
+}

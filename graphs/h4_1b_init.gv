@@ -1,0 +1,25 @@
+digraph G {
+    rankdir=LR;
+
+    1 [label="-", xlabel="1"];
+    2 [label="+", xlabel="2"];
+    3 [label="-", xlabel="3"];
+    4 [label="+", xlabel="4"];
+
+
+    subgraph cluster_0 {
+        label="L1";
+        1->1[label="b"];
+        1->2[label="a"];
+        2->2[label="a"];
+        2->1[label="b"];
+    }
+
+    subgraph cluster_1 {
+        label="L2";
+        3->4[label="b"];
+        4->4[label="a,b"];
+    }
+
+    2->3[label="λ", color="red"];
+}

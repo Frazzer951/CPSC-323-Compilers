@@ -1,0 +1,18 @@
+digraph G {
+    rankdir=LR;
+
+    1  [label="-", xlabel="{1}"];
+    2  [label="",  xlabel="{2}"];
+    14 [label="+", xlabel="{1,4}"];
+    24 [label="+", xlabel="{2,4}"];
+
+    1->2[label="a"];
+    1->1[label="b"];
+    2->2[label="a"];
+    2->14[label="b"];
+    14->24[label="a"];
+    14->14[label="b"];
+    24->24[label="a"];
+    24->14[label="b"];
+
+}
