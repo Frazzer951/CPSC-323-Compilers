@@ -1,0 +1,14 @@
+digraph G {
+    rankdir=LR;
+    label="L2 Inverse";
+
+    S [label="±", xlabel=""];
+    B [label="",  xlabel=""];
+    Y [label="+", xlabel=""];
+
+
+    S -> S[label="a"];
+    S -> B[label="b"];
+    B -> Y[label="a,b"];
+    Y -> Y[label="a,b"];
+}

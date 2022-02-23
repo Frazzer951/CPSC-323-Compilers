@@ -1,0 +1,26 @@
+digraph G {
+    rankdir=LR;
+    label="L1 Inverse Union L2 Inverse";
+
+    X [label="±", xlabel="{X}"];
+    A [label="",  xlabel="{A}"];
+    Z [label="+", xlabel="{Z}"];
+    S [label="±", xlabel="{S}"];
+    B [label="",  xlabel="{B}"];
+    Y [label="+", xlabel="{Y}"];
+
+    C [label="±", xlabel="{C}", color=red];
+
+    C -> X[label="λ"];
+    C -> S[label="λ"];
+
+    X -> A[label="a"];
+    A -> A[label="b"];
+    X -> Z[label="b"];
+    A -> Z[label="a"];
+    Z -> Z[label="a,b"];
+    S -> S[label="a"];
+    S -> B[label="b"];
+    B -> Y[label="a,b"];
+    Y -> Y[label="a,b"];
+}

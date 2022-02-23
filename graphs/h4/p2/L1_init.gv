@@ -1,0 +1,16 @@
+digraph G {
+    rankdir=LR;
+    label="L1";
+    X [label="-", xlabel=""];
+    A [label="+", xlabel=""];
+    Z [label="",  xlabel="", color=red];
+
+
+    X -> A[label="a"];
+    A -> A[label="b"];
+
+
+    X -> Z[label="b", color=red];
+    A -> Z[label="a", color=red];
+    Z -> Z[label="a,b", color=red];
+}
