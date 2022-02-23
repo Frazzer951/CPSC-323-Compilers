@@ -18,4 +18,5 @@ digraph G {
     A -> S[label="a"];
     B -> S[label="a"];
     D -> S[label="a,b"];
+    S -> S[label="a,b"];
 }
