@@ -37,7 +37,6 @@ class State(Enum):
     T = auto()
     R = auto()
     F = auto()
-    size = auto()
 
 
 class Transition(Enum):
