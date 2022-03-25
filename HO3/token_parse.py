@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     # Get the file with the tokens
     filename = input("Enter the filename: ")
-    with open(filename, "r") as f:
+    with open(filename) as f:
         file = f.read()
 
     file = file.split("\n")  # Split file by new-lines

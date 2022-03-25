@@ -5,9 +5,9 @@ Accepted
 Input: (i*)$
 Rejected: Reached BLANK state
 """
-
-from enum import Enum, auto
 from collections import defaultdict
+from enum import auto
+from enum import Enum
 
 
 class Transition(Enum):

@@ -37,8 +37,8 @@ Input: a=(a+a)a$
         MATCH! Stack: $, Q, R            Input: "a$"
 REJECTED
 """
-
-from enum import Enum, auto
+from enum import auto
+from enum import Enum
 
 
 class State(Enum):
@@ -222,10 +222,8 @@ for string in strings:
                 print("UNKNOWN TRANSITION", result)
                 break
         if cur_char is None:
-            stack_str = "Stack: " + ", ".join(
-                x.name if isinstance(x, State) else x for x in stack
-            )
+            stack_str = "Stack: " + ", ".join(x.name if isinstance(x, State) else x for x in stack)
             input_str = 'Input: "' + "".join(input) + '"'
-            print("\tMATCH! {:<25} {}".format(stack_str, input_str))
+            print(f"\tMATCH! {stack_str:<25} {input_str}")
     print("ACCEPTED" if len(stack) == 0 and len(input) == 0 else "REJECTED")
     print("\n")
