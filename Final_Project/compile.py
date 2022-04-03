@@ -3,6 +3,8 @@ import sys
 from clean_input import clean_input
 from parse import parse_identifiers_and_nums
 
+DEBUG = True
+
 
 def main(argv):
     # Make sure we have the correct number of arguments
@@ -33,7 +35,16 @@ def main(argv):
     for line in cleaned:
         tokens += line
 
-    identifiers, numbers = parse_identifiers_and_nums(tokens)
+    valid, identifiers, numbers = parse_identifiers_and_nums(tokens)
+
+    if DEBUG:
+        print("Tokens:", tokens)
+        print("Identifiers:", identifiers)
+        print("Numbers", numbers)
+
+    if not valid:
+        print("REJECTED: Invalid input")
+        return
 
 
 if __name__ == "__main__":
