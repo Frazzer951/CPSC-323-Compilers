@@ -1,6 +1,7 @@
 import sys
 
 from clean_input import clean_input
+from parse import parse_identifiers_and_nums
 
 
 def main(argv):
@@ -27,6 +28,12 @@ def main(argv):
     # Save the cleaned input
     with open(filename.split(".")[0] + "_cleaned.txt", "w") as file:
         file.write("\n".join([" ".join(line) for line in cleaned]))
+
+    tokens = []
+    for line in cleaned:
+        tokens += line
+
+    identifiers, numbers = parse_identifiers_and_nums(tokens)
 
 
 if __name__ == "__main__":
