@@ -5,7 +5,7 @@ from generate import generate_python_program
 from parse import parse_identifiers_and_nums
 from parse import parse_tokens
 
-DEBUG = True
+DEBUG = False
 
 
 def main(argv):
@@ -48,7 +48,7 @@ def main(argv):
         print("REJECTED: Invalid input")
         return
 
-    valid, variables, operations = parse_tokens(tokens, identifiers, numbers, DEBUG)
+    valid, variables, operations, prog_name = parse_tokens(tokens, identifiers, numbers, DEBUG)
 
     if not valid:
         print("REJECTED: Invalid input")
@@ -58,7 +58,7 @@ def main(argv):
         print("Variables:", variables)
         print("Stats:", operations)
 
-    generate_python_program(filename.split(".")[0] + ".py", variables, operations)
+    generate_python_program(filename.split(".")[0] + ".py", variables, operations, prog_name)
 
 
 if __name__ == "__main__":

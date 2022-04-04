@@ -99,7 +99,7 @@ def parse_tokens(tokens: List[str], identifiers: Set[str], numbers: Set[str], de
 
     if "end." not in tokens:
         print("'end.' is missing")
-        return False, declared_vars, operations
+        return False, declared_vars, operations, prog_name
 
     stack = ["$", "PR"]
     input = tokens.copy()
@@ -185,4 +185,4 @@ def parse_tokens(tokens: List[str], identifiers: Set[str], numbers: Set[str], de
                 print("MATCH")
             debug_print(stack, input, cur_token)
     accepted = len(stack) == 0 and len(input) == 0 and not cur_token
-    return accepted, declared_vars, operations
+    return accepted, declared_vars, operations, prog_name
