@@ -1,11 +1,11 @@
 program b2022 ;
 var
-a1 , b2a , wc , bal2 : integer ;
+a1 , b2a , wc , baa2 : integer ;
 begin
 a1 = 3 ;
 b2a = 4 ;
 wc = 5 ;
 write ( wc ) ;
-bal2 = a1 * ( b2a + 2 * wc ) ;
-write ( "value=" , bal2 ) ;
+baa2 = a1 * ( b2a + 2 * wc ) ;
+write ( "value=" , baa2 ) ;
 end.

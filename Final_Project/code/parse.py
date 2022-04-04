@@ -6,6 +6,7 @@ from typing import Set
 
 reserved_words = ["program", "var", "begin", "end.", "integer", "write"]
 terminals = [":", ";", "=", "+", "-", "*", "/", "(", ")", ",", '"value="', "$"]
+allowed_letters = "abcdwf"
 
 
 def parse_identifiers_and_nums(tokens: List[str]):
@@ -15,11 +16,12 @@ def parse_identifiers_and_nums(tokens: List[str]):
     for token in tokens:
         if token not in reserved_words and token not in terminals:
             first_char = token[0]
-            if first_char.isalpha():
+            if first_char in allowed_letters:
                 # Do identifier checks
                 valid_token = True
                 for char in token[1:]:
-                    if not char.isalnum():
+                    if not (char.isnumeric() or char in allowed_letters):
+                        print(f"Char {char} is not allowed in identifier {token}")
                         valid_token = False
                 if valid_token:
                     identifiers.add(token)
@@ -31,6 +33,7 @@ def parse_identifiers_and_nums(tokens: List[str]):
                 valid_token = True
                 for char in token[1:]:
                     if not char.isnumeric():
+                        print(f"Char {char} is not allowed in number {token}")
                         valid_token = False
                 if valid_token:
                     numbers.add(token)

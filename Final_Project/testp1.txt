@@ -3,14 +3,14 @@ program b2022;
     of a given expression */
 var
     /* declare variables */
-    a1, b2a, wc, bal2 : integer;
+    a1, b2a, wc, baa2 : integer;
 begin
-    a1 = 3;
+    a1  = 3;
     b2a = 4;
-    wc = 5;
-	write( wc ) ; /* display wc */
+    wc  = 5;
+	write( wc ); /* display wc */
 
     /* compute the value of this expression */
-    bal2 = a1 * ( b2a + 2 * wc );
-    write ( "value=", bal2 ); /* print the value of bal12 */
+    baa2 = a1 * ( b2a + 2 * wc );
+    write ( "value=", baa2 ); /* print the value of bal12 */
 end.
