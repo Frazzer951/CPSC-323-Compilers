@@ -93,20 +93,34 @@ TT["FA"]["("] = ["(", "EX", ")"]
 def parse_tokens(tokens: List[str], identifiers: Set[str], numbers: Set[str], debug: bool = False):
     prog_name = ""
     declared_vars = []
-
+    operations = []
     declaration_mode = False
     declared = False
+
+    if "end." not in tokens:
+        print("'end.' is missing")
+        return False, declared_vars, operations
 
     stack = ["$", "PR"]
     input = tokens.copy()
     input.append("$")
     cur_token = None
+    current_op = []
+    in_op = False
     if debug:
         debug_print(stack, input, cur_token)
     while len(stack) > 0 or len(input) > 0:
         state = stack.pop()
+        if state == "WR" or state == "SA":
+            in_op = True
+            current_op = [cur_token]
         if not cur_token:
             cur_token = input.pop(0)
+            if in_op and cur_token == ";":
+                in_op = False
+                operations.append(current_op)
+            elif in_op:
+                current_op.append(cur_token)
 
         if state == "ID":
             if cur_token in identifiers:
@@ -114,7 +128,7 @@ def parse_tokens(tokens: List[str], identifiers: Set[str], numbers: Set[str], de
                     declared_vars.append(cur_token)
                 elif declared:
                     if cur_token not in declared_vars:
-                        print(f"Variable {cur_token} not declared")
+                        print(f"Variable '{cur_token}' not declared")
                         break
                 else:
                     prog_name = cur_token
@@ -132,13 +146,13 @@ def parse_tokens(tokens: List[str], identifiers: Set[str], numbers: Set[str], de
             if state == cur_token:
                 cur_token = None
             else:
-                print(f"Expected {state}, got {cur_token}")
+                print(f"Expected '{state}', got {cur_token}")
                 break
         elif state in reserved_words:
             if state == cur_token:
                 cur_token = None
             else:
-                print(f"Expected {state}, got {cur_token}")
+                print(f"Expected '{state}', got {cur_token}")
                 break
             if state == "var":
                 declaration_mode = True
@@ -158,7 +172,8 @@ def parse_tokens(tokens: List[str], identifiers: Set[str], numbers: Set[str], de
             if result == None:
                 expected = list(TT[state])
                 expected.remove(parse_token)
-                print(f"Expected {expected}, got {parse_token}")
+                expected = " or ".join(expected)
+                print(f"Expected {expected}, got {cur_token}")
                 break
             elif isinstance(result, list):
                 stack += reversed(result)
@@ -169,5 +184,5 @@ def parse_tokens(tokens: List[str], identifiers: Set[str], numbers: Set[str], de
             if cur_token == None:
                 print("MATCH")
             debug_print(stack, input, cur_token)
-    print("ACCEPTED" if len(stack) == 0 and len(input) == 0 and not cur_token else "REJECTED")
-    print("\n")
+    accepted = len(stack) == 0 and len(input) == 0 and not cur_token
+    return accepted, declared_vars, operations

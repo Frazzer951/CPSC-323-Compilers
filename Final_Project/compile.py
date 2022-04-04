@@ -47,7 +47,15 @@ def main(argv):
         print("REJECTED: Invalid input")
         return
 
-    parse_tokens(tokens, identifiers, numbers, DEBUG)
+    valid, variables, operations = parse_tokens(tokens, identifiers, numbers, DEBUG)
+
+    if not valid:
+        print("REJECTED: Invalid input")
+        return
+
+    if DEBUG:
+        print("Variables:", variables)
+        print("Stats:", operations)
 
 
 if __name__ == "__main__":
