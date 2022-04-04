@@ -1,6 +1,7 @@
 import sys
 
 from clean_input import clean_input
+from generate import generate_python_program
 from parse import parse_identifiers_and_nums
 from parse import parse_tokens
 
@@ -56,6 +57,8 @@ def main(argv):
     if DEBUG:
         print("Variables:", variables)
         print("Stats:", operations)
+
+    generate_python_program(filename.split(".")[0] + ".py", variables, operations)
 
 
 if __name__ == "__main__":
