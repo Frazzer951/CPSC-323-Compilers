@@ -1,4 +1,8 @@
+from collections import defaultdict
+from enum import auto
+from enum import Enum
 from typing import List
+from typing import Set
 
 reserved_words = ["program", "var", "begin", "end.", "integer", "write"]
 terminals = [":", ";", "=", "+", "-", "*", "/", "(", ")", ",", '"value="']
@@ -37,3 +41,48 @@ def parse_identifiers_and_nums(tokens: List[str]):
                 print(f"Invalid token: {token}")
                 valid = False
     return valid, identifiers, numbers
+
+
+TT = defaultdict(lambda: defaultdict(lambda: None))
+
+
+TT["PR"]["program"] = ["program", "ID", ";", "var", "DL", "begin", "SL", "end."]
+TT["DL"]["ID"] = ["DE", ":", "TY", ";"]
+TT["DE"]["ID"] = ["ID", "Z"]
+TT["Z"][","] = [",", "DE"]
+TT["Z"][":"] = "lambda"
+TT["TY"]["integer"] = "integer"
+TT["SL"]["write"] = ["SA", "W"]
+TT["SL"]["ID"] = ["SA", "W"]
+TT["W"]["end."] = "lambda"
+TT["W"]["write"] = ["SL"]
+TT["W"]["ID"] = ["SL"]
+TT["SA"]["write"] = ["WR"]
+TT["SA"]["ID"] = ["AS"]
+TT["WR"]["write"] = ["write", "(", "ST", "ID", ")", ";"]
+TT["ST"]["ID"] = "lambda"
+TT["ST"]['"value="'] = ["“value=”", ","]
+TT["AS"]["ID"] = ["ID", "=", "EX", ";"]
+TT["EX"]["ID"] = ["TR", "Q"]
+TT["EX"]["NUM"] = ["TR", "Q"]
+TT["EX"]["("] = ["TR", "Q"]
+TT["Q"][")"] = "lambda"
+TT["Q"]["+"] = ["+", "TR", "Q"]
+TT["Q"]["-"] = ["-", "TR", "Q"]
+TT["Q"][";"] = "lambda"
+TT["TR"]["ID"] = ["FA", "R"]
+TT["TR"]["NUM"] = ["FA", "R"]
+TT["TR"]["("] = ["FA", "R"]
+TT["R"][")"] = "lambda"
+TT["R"]["+"] = "lambda"
+TT["R"]["-"] = "lambda"
+TT["R"]["*"] = ["*", "FA", "R"]
+TT["R"]["/"] = ["/", "FA", "R"]
+TT["R"][";"] = "lambda"
+TT["FA"]["ID"] = "ID"
+TT["FA"]["NUM"] = "NUM"
+TT["FA"]["("] = ["(", "EX", ")"]
+
+
+def parse_tokens(tokens: List[str], indentifiers: Set[str], numbers: Set[str]):
+    stack = ["$", "PR"]
