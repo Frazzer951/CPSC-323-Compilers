@@ -2,6 +2,7 @@ import sys
 
 from clean_input import clean_input
 from parse import parse_identifiers_and_nums
+from parse import parse_tokens
 
 DEBUG = True
 
@@ -45,6 +46,8 @@ def main(argv):
     if not valid:
         print("REJECTED: Invalid input")
         return
+
+    parse_tokens(tokens, identifiers, numbers, DEBUG)
 
 
 if __name__ == "__main__":
