@@ -33,10 +33,12 @@ def main(argv):
     with open(filename.split(".")[0] + "_cleaned.txt", "w") as file:
         file.write("\n".join([" ".join(line) for line in cleaned]))
 
+    # Turn the 2D list into a 1D list of tokens
     tokens = []
     for line in cleaned:
         tokens += line
 
+    # Get the identifiers and numbers from the tokens
     valid, identifiers, numbers = parse_identifiers_and_nums(tokens)
 
     if DEBUG:
@@ -44,20 +46,24 @@ def main(argv):
         print("Identifiers:", identifiers)
         print("Numbers", numbers)
 
+    # If any of the identifiers or numbers are invalid, print an error message
     if not valid:
         print("REJECTED: Invalid input")
         return
 
+    # Parse the whole program
     valid, variables, operations, prog_name = parse_tokens(tokens, identifiers, numbers, DEBUG)
-
-    if not valid:
-        print("REJECTED: Invalid input")
-        return
 
     if DEBUG:
         print("Variables:", variables)
         print("Stats:", operations)
 
+    # If the program is invalid, print an error message
+    if not valid:
+        print("REJECTED: Invalid input")
+        return
+
+    # Generate the python program
     generate_python_program(filename.split(".")[0] + ".py", variables, operations, prog_name)
 
 

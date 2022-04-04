@@ -1,25 +1,24 @@
 from collections import defaultdict
-from enum import auto
-from enum import Enum
 from typing import List
 from typing import Set
 
+# Define all the terminal values
 reserved_words = ["program", "var", "begin", "end.", "integer", "write"]
 terminals = [":", ";", "=", "+", "-", "*", "/", "(", ")", ",", '"value="', "$"]
 allowed_letters = "abcdwf"
 
 
 def parse_identifiers_and_nums(tokens: List[str]):
-    identifiers = set()
-    numbers = set()
-    valid = True
+    identifiers = set()  # set of identifiers
+    numbers = set()  # set of numbers
+    valid = True  # whether the tokens are valid
     for token in tokens:
         if token not in reserved_words and token not in terminals:
             first_char = token[0]
             if first_char in allowed_letters:
                 # Do identifier checks
                 valid_token = True
-                for char in token[1:]:
+                for char in token[1:]:  # check if the rest of the chars are allowed
                     if not (char.isnumeric() or char in allowed_letters):
                         print(f"Char {char} is not allowed in identifier {token}")
                         valid_token = False
@@ -31,7 +30,7 @@ def parse_identifiers_and_nums(tokens: List[str]):
             elif first_char.isdigit() or first_char == "-" or first_char == "+":
                 # Do number checks
                 valid_token = True
-                for char in token[1:]:
+                for char in token[1:]:  # check if the rest of the chars are allowed
                     if not char.isnumeric():
                         print(f"Char {char} is not allowed in number {token}")
                         valid_token = False
@@ -53,8 +52,8 @@ def debug_print(stack: List[str], input: List[str], cur_token: str):
     print("")
 
 
+# Define the transition table
 TT = defaultdict(lambda: defaultdict(lambda: None))
-
 TT["PR"]["program"] = ["program", "ID", ";", "var", "DL", "begin", "SL", "end."]
 TT["DL"]["ID"] = ["DE", ":", "TY", ";"]
 TT["DE"]["ID"] = ["ID", "Z"]
@@ -114,13 +113,13 @@ def parse_tokens(tokens: List[str], identifiers: Set[str], numbers: Set[str], de
         debug_print(stack, input, cur_token)
     while len(stack) > 0 or len(input) > 0:
         state = stack.pop()
-        if state == "WR" or state == "SA":
-            in_op = True
+        if state == "WR" or state == "AS":  # if we are in a write or an assign statement
+            in_op = True  # we are in an operation
             current_op = [cur_token]
         if not cur_token:
             cur_token = input.pop(0)
-            if in_op and cur_token == ";":
-                in_op = False
+            if in_op and cur_token == ";":  # if we are in an operation and the current token is a semicolon
+                in_op = False  # we are not in an operation
                 operations.append(current_op)
             elif in_op:
                 current_op.append(cur_token)
@@ -172,7 +171,7 @@ def parse_tokens(tokens: List[str], identifiers: Set[str], numbers: Set[str], de
             else:
                 parse_token = cur_token
             result = TT[state][parse_token]
-            if result == None:
+            if result is None:
                 expected = list(TT[state])
                 expected.remove(parse_token)
                 expected = " or ".join(expected)
@@ -184,7 +183,7 @@ def parse_tokens(tokens: List[str], identifiers: Set[str], numbers: Set[str], de
                 print(f"Unknown Result from TT: {result}")
                 break
         if debug:
-            if cur_token == None:
+            if cur_token is None:
                 print("MATCH")
             debug_print(stack, input, cur_token)
     accepted = len(stack) == 0 and len(input) == 0 and not cur_token
