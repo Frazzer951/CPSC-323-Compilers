@@ -41,11 +41,12 @@ def clean_input(lines: List[str]) -> List[List[str]]:
                         if not modified and char in token:
                             verified = False
                             modified = True
-                            seperated = token.split(char)  # Seperate the token
+                            token = token.replace(char, " " + char + " ")
+                            seperated = token.split()  # Seperate the token
                             seperated = [x.strip() for x in seperated]  # Remove whitespace
                             while "" in seperated:
                                 seperated.remove("")
-                            spaced += [seperated[0], char] + seperated[1:]  # Add the seperated tokens to the new line
+                            spaced += seperated  # Add the seperated tokens to the new line
                 if not modified:  # If we haven't modified the token
                     spaced.append(token)  # Add the token to the new line
             line[:] = spaced  # Replace the old line with the new line
