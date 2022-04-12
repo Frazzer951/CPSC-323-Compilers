@@ -5,7 +5,7 @@ from typing import Set
 # Define all the terminal values
 reserved_words = ["program", "var", "begin", "end.", "integer", "write"]
 terminals = [":", ";", "=", "+", "-", "*", "/", "(", ")", ",", '"value="', "$"]
-allowed_letters = "abcdwf"
+allowed_letters = "abcdwfl"
 
 
 def parse_identifiers_and_nums(tokens: List[str]):
